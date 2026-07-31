@@ -6,7 +6,7 @@ Full-stack e-commerce platform for buying new books and exchanging used ones.
 Next.js, MongoDB, Tailwind CSS, deployed on Vercel
 
 ## Status
- Progress In development
+🚧 In development
 
 ## Live Site
 [coming soon]
