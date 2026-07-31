@@ -1,2 +1,12 @@
-# bookstore-exchange
-Full-stack e-commerce platform for buying new books and exchanging used ones. Built with Next.js, MongoDB, and Tailwind CSS.
+# BookSwap
+
+Full-stack e-commerce platform for buying new books and exchanging used ones.
+
+## Tech Stack
+Next.js, MongoDB, Tailwind CSS, deployed on Vercel
+
+## Status
+ Progress In development
+
+## Live Site
+[coming soon]
