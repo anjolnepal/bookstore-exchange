@@ -1,14 +1,13 @@
 // app/page.js
 //
-// This is the homepage — in Next.js's App Router, whatever this file
-// returns is what shows up at your site's root URL ("/").
+// Header and Footer now come from app/layout.js, so every page gets them
+// automatically — this file only owns what's unique to the homepage:
+// the hero and the featured books grid.
 //
-// The `books` array below is FAKE data for now — hardcoded so we have
-// something real to render. Later (Week 2+), this same array will instead
-// come from a `fetch()` call to a database-backed API route. Notice that
-// once that happens, nothing below in the actual page markup needs to
-// change — only where `books` comes from changes. That's the whole point
-// of building it this way from the start.
+// `books` is still fake data — same as before, still commented as a
+// placeholder for the future fetch() call to /api/books once MongoDB is
+// connected (Week 2 / Days 8-10 milestone). Nothing below the fetch swap
+// needs to change when that happens.
 
 import BookCard from './components/BookCard';
 
@@ -65,54 +64,49 @@ const books = [
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-gray-50">
-      {/* ---------- Header ---------- */}
-      <header className="bg-white border-b border-gray-100 sticky top-0 z-10">
-        <div className="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
-          <span className="text-xl font-bold text-gray-800">📚 BookSwap</span>
-          <nav className="flex gap-6 text-sm font-medium text-gray-600">
-            <a href="#" className="hover:text-blue-600">
-              Home
-            </a>
-            <a href="#" className="hover:text-blue-600">
-              Browse
-            </a>
-            <a href="#" className="hover:text-blue-600">
-              Exchange
-            </a>
-            <a href="#" className="hover:text-blue-600">
-              Login
-            </a>
-          </nav>
-        </div>
-      </header>
-
+    <>
       {/* ---------- Hero ---------- */}
-      <section className="max-w-6xl mx-auto px-4 py-16 text-center">
-        <h1 className="text-4xl md:text-5xl font-extrabold text-gray-900 mb-4">
-          Buy new books. Exchange old ones.
+      <section className="text-center px-6 py-16">
+        <h1 className="font-display text-4xl md:text-5xl font-semibold max-w-xl mx-auto mb-4 leading-tight">
+          Buy new books. <em className="text-spine not-italic">Exchange</em> old
+          ones.
         </h1>
-        <p className="text-gray-500 text-lg max-w-2xl mx-auto">
+        <p className="text-muted text-base max-w-md mx-auto mb-6">
           A marketplace for readers — shop new titles or trade the books already
           on your shelf for something new to you.
         </p>
+        <div className="flex gap-3 justify-center">
+          <a
+            href="/browse"
+            className="bg-spine hover:bg-spine-dark text-white rounded-md px-5 py-3 text-sm font-semibold transition-colors"
+          >
+            Browse Books
+          </a>
+          <a
+            href="/exchange"
+            className="border-2 border-spine text-spine hover:bg-spine hover:text-white rounded-md px-5 py-3 text-sm font-semibold transition-colors"
+          >
+            List a Book
+          </a>
+        </div>
       </section>
 
-      {/* ---------- Book Grid ---------- */}
-      <section className="max-w-6xl mx-auto px-4 pb-20">
-        <h2 className="text-2xl font-bold text-gray-800 mb-6">
+      {/* ---------- Featured Books ---------- */}
+      <section className="max-w-[1120px] w-full mx-auto px-6 pb-20">
+        <h2 className="font-display text-xl font-semibold mb-4">
           Featured Books
         </h2>
 
         {/*
-          This is where the array of hardcoded books above becomes visible
-          UI. `.map()` loops over every item in `books` and turns each one
-          into a <BookCard>, passing that book's data in as props.
+          Same .map() pattern as before — this is the part that will
+          eventually iterate over data from fetch('/api/books') instead
+          of the hardcoded array above, with zero changes needed here.
         */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {books.map((book) => (
             <BookCard
               key={book.id}
+              id={book.id}
               title={book.title}
               author={book.author}
               price={book.price}
@@ -122,11 +116,6 @@ export default function Home() {
           ))}
         </div>
       </section>
-
-      {/* ---------- Footer ---------- */}
-      <footer className="border-t border-gray-100 py-8 text-center text-sm text-gray-400">
-        © {new Date().getFullYear()} BookSwap — built as a student project.
-      </footer>
-    </main>
+    </>
   );
 }
