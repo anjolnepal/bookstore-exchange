@@ -1,26 +1,65 @@
 @import 'tailwindcss';
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/*
+  Design tokens pulled from the BookSwap prototype (prototype.html).
+  Defining them here with Tailwind v4's @theme auto-generates the matching
+  utility classes: bg-spine, text-mustard, border-line, font-display, etc.
+
+  If your project uses Tailwind v3 instead (has a tailwind.config.js),
+  move this block into tailwind.config.js under theme.extend — same
+  variable names, same resulting class names, just a different file.
+*/
+@theme {
+  --color-ink: #20261f;
+  --color-paper: #fbf7ee;
+  --color-paper-2: #f1e9d6;
+  --color-spine: #2f4a3b;
+  --color-spine-dark: #1e3227;
+  --color-mustard: #d79a2c;
+  --color-mustard-dark: #b37f1e;
+  --color-line: #dcd2b8;
+  --color-muted: #736c5b;
+  --color-danger: #a34438;
+
+  --font-display: var(--font-fraunces), serif;
+  --font-sans: var(--font-work-sans), sans-serif;
+  --font-mono: var(--font-plex-mono), monospace;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/*
+  The "stamp" badge (dashed border, rotated, monospace) is the prototype's
+  signature element — used for status badges everywhere: book/listing
+  cards now, and later on order history, exchange listings, and requests.
+  It's a compound pattern, so it lives here as a component class rather
+  than being rebuilt with utilities on every page.
+*/
+@layer components {
+  .stamp {
+    @apply inline-flex items-center font-mono text-[10.5px] font-semibold uppercase tracking-wide
+           px-2 py-0.5 rounded border border-dashed -rotate-2;
   }
-}
+  .stamp-new {
+    @apply text-spine border-spine;
+  }
+  .stamp-exchange {
+    @apply text-mustard-dark border-mustard-dark;
+  }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  /* generic status stamps — reused later on Listing/Order/Request pages */
+  .stamp-open {
+    @apply text-green-700 border-green-700;
+  }
+  .stamp-pending {
+    @apply text-mustard-dark border-mustard-dark;
+  }
+  .stamp-closed,
+  .stamp-declined {
+    @apply text-gray-400 border-gray-400;
+  }
+  .stamp-accepted {
+    @apply text-green-700 border-green-700;
+  }
+  .stamp-confirmed {
+    @apply text-spine border-spine;
+  }
 }
