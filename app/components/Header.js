@@ -2,6 +2,8 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import { useSession } from "next-auth/react";
+import { signOut } from "next-auth/react";
 
 const NAV_LINKS = [
   { href: '/', label: 'Home' },
@@ -9,13 +11,13 @@ const NAV_LINKS = [
   { href: '/exchange', label: 'Exchange' },
 ];
 
-// TODO: replace with real session state once NextAuth is wired up (Days 8-10 milestone).
-const loggedIn = false;
+
 const cartCount = 0;
 
 export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [accountOpen, setAccountOpen] = useState(false);
+  const { data: session, status } = useSession();
 
   return (
     <header className="bg-spine text-white sticky top-0 z-40 border-b-[3px] border-spine-dark">
@@ -51,7 +53,7 @@ export default function Header() {
             </span>
           </Link>
 
-          {loggedIn ? (
+          {status === "authenticated" ? (
             <div className="relative">
               <button
                 onClick={() => setAccountOpen((v) => !v)}
@@ -92,7 +94,7 @@ export default function Header() {
                     Profile
                   </Link>
                   <hr className="my-1 border-line" />
-                  <button className="block w-full text-left px-3 py-2 text-sm rounded hover:bg-paper-2">
+                  <button onClick={() => signOut({ callbackUrl: "/login" })} className="block w-full text-left px-3 py-2 text-sm rounded hover:bg-paper-2">
                     Log Out
                   </button>
                 </div>

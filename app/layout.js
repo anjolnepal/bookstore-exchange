@@ -2,7 +2,8 @@ import { Fraunces, Work_Sans, IBM_Plex_Mono } from 'next/font/google';
 import './globals.css';
 import Header from './components/Header';
 import Footer from './components/Footer';
-
+import { SessionProvider } from 'next-auth/react';
+import SessionWrapper from './components/SessionWrapper';
 // Same three fonts the prototype loaded from Google Fonts, now self-hosted
 // via next/font (faster, no external request, no layout shift).
 const fraunces = Fraunces({
@@ -42,11 +43,13 @@ export default function RootLayout({ children }) {
         This satisfies FR-22 (consistent site-wide navigation) by
         construction rather than by convention.
       */}
-      <body className="min-h-full flex flex-col font-sans bg-paper text-ink">
-        <Header />
-        <main className="flex-1 flex flex-col">{children}</main>
-        <Footer />
-      </body>
+      <SessionWrapper>
+        <body className="min-h-full flex flex-col font-sans bg-paper text-ink">
+          <Header />
+          <main className="flex-1 flex flex-col">{children}</main>
+          <Footer />
+        </body>
+      </SessionWrapper>
     </html>
   );
 }

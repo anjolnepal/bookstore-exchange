@@ -1,15 +1,7 @@
-// app/page.js
-//
-// Header and Footer now come from app/layout.js, so every page gets them
-// automatically — this file only owns what's unique to the homepage:
-// the hero and the featured books grid.
-//
-// `books` is still fake data — same as before, still commented as a
-// placeholder for the future fetch() call to /api/books once MongoDB is
-// connected (Week 2 / Days 8-10 milestone). Nothing below the fetch swap
-// needs to change when that happens.
+
 
 import BookCard from './components/BookCard';
+
 
 const books = [
   {
@@ -63,6 +55,7 @@ const books = [
 ];
 
 export default function Home() {
+  
   return (
     <>
       {/* ---------- Hero ---------- */}
@@ -75,6 +68,7 @@ export default function Home() {
           A marketplace for readers — shop new titles or trade the books already
           on your shelf for something new to you.
         </p>
+        
         <div className="flex gap-3 justify-center">
           <a
             href="/browse"

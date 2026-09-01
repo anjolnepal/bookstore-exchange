@@ -10,7 +10,11 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "@auth/mongodb-adapter": "^3.11.3",
+    "bcryptjs": "^3.0.3",
+    "mongodb": "^6.21.0",
     "next": "16.2.12",
+    "next-auth": "^4.24.15",
     "react": "19.2.4",
     "react-dom": "19.2.4"
   },
