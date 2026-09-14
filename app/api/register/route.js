@@ -24,6 +24,7 @@ export async function POST(request) {
       name: name || "",
       email: email.toLowerCase(),
       password: hashedPassword,
+      image:'',
       createdAt: new Date(),
     });
 

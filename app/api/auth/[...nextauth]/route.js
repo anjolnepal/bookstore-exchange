@@ -1,5 +1,5 @@
 import NextAuth from 'next-auth';
-import CredentialsProvider from "next-auth/providers/credentials"; // 1. Added missing import
+import CredentialsProvider from "next-auth/providers/credentials";
  import { MongoDBAdapter } from "@auth/mongodb-adapter";
 import GithubProvider from 'next-auth/providers/github';
 import GoogleProvider from 'next-auth/providers/google';
@@ -71,9 +71,41 @@ export const authOptions = {
   pages: {
     signIn: '/login',
   },
-   session: {
-    strategy: "jwt",
+  session: {
+  strategy: "jwt",
+},
+
+callbacks: {
+  async jwt({ token, user, trigger, session }) {
+    // Runs when the user first signs in
+    if (user) {
+      token.id = user.id;
+      token.name = user.name;
+      token.email = user.email;
+      token.picture = user.image;
+    }
+
+    // Runs when useSession().update() is called
+    if (trigger === "update" && session) {
+      token.name = session.name ?? token.name;
+      token.picture = session.image ?? token.picture;
+    }
+
+    return token;
   },
+
+  async session({ session, token }) {
+    if (session.user) {
+      session.user.id = token.id;
+      session.user.name = token.name;
+      session.user.email = token.email;
+      session.user.image = token.picture;
+    }
+
+    return session;
+  },
+},
+
 };
 
 const handler = NextAuth(authOptions);

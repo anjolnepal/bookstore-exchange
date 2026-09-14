@@ -1,61 +1,10 @@
-
-
+import Link from 'next/link';
 import BookCard from './components/BookCard';
+import { getFeaturedBooks } from './lib/books';
 
+export default async function Home() {
+  const books = await getFeaturedBooks();
 
-const books = [
-  {
-    id: 1,
-    title: 'Dune',
-    author: 'Frank Herbert',
-    price: 14.99,
-    emoji: '🪐',
-    type: 'new',
-  },
-  {
-    id: 2,
-    title: '1984',
-    author: 'George Orwell',
-    price: 9.99,
-    emoji: '👁️',
-    type: 'new',
-  },
-  {
-    id: 3,
-    title: 'The Hobbit',
-    author: 'J.R.R. Tolkien',
-    price: 12.5,
-    emoji: '🧙',
-    type: 'new',
-  },
-  {
-    id: 4,
-    title: 'Sapiens',
-    author: 'Yuval Noah Harari',
-    price: 0,
-    emoji: '🧠',
-    type: 'exchange',
-  },
-  {
-    id: 5,
-    title: 'Atomic Habits',
-    author: 'James Clear',
-    price: 0,
-    emoji: '⏱️',
-    type: 'exchange',
-  },
-  {
-    id: 6,
-    title: 'The Alchemist',
-    author: 'Paulo Coelho',
-    price: 10.0,
-    emoji: '🌅',
-    type: 'new',
-  },
-];
-
-export default function Home() {
-  
   return (
     <>
       {/* ---------- Hero ---------- */}
@@ -68,7 +17,7 @@ export default function Home() {
           A marketplace for readers — shop new titles or trade the books already
           on your shelf for something new to you.
         </p>
-        
+
         <div className="flex gap-3 justify-center">
           <a
             href="/browse"
@@ -76,12 +25,12 @@ export default function Home() {
           >
             Browse Books
           </a>
-          <a
-            href="/exchange"
+          <Link
+            href="/newListing"
             className="border-2 border-spine text-spine hover:bg-spine hover:text-white rounded-md px-5 py-3 text-sm font-semibold transition-colors"
           >
             List a Book
-          </a>
+          </Link>
         </div>
       </section>
 
@@ -104,7 +53,7 @@ export default function Home() {
               title={book.title}
               author={book.author}
               price={book.price}
-              emoji={book.emoji}
+              imageUri={book.coverImageUrl}
               type={book.type}
             />
           ))}

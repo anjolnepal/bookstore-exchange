@@ -42,7 +42,7 @@ export default function Header() {
         </nav>
 
         <div className="flex items-center gap-3.5">
-          <Link
+          {status === "unauthenticated" ? <div></div>:<Link
             href="/cart"
             className="relative text-base p-1"
             aria-label="Cart"
@@ -51,7 +51,8 @@ export default function Header() {
             <span className="absolute -top-1.5 -right-2 bg-mustard text-spine-dark text-[10px] font-bold font-mono rounded-full w-4 h-4 flex items-center justify-center">
               {cartCount}
             </span>
-          </Link>
+          </Link>}
+          
 
           {status === "authenticated" ? (
             <div className="relative">
@@ -130,7 +131,7 @@ export default function Header() {
               {l.label}
             </Link>
           ))}
-          {!loggedIn && (
+          {status === "unauthenticated" && (
             <>
               <Link
                 href="/login"

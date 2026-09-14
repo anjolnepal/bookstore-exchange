@@ -17,17 +17,23 @@ function spineGradient(id = 0) {
   return `linear-gradient(135deg, ${c1}, ${c2})`;
 }
 
-export default function BookCard({ id, title, author, price, emoji, type }) {
+export default function BookCard({ id, title, author, price, imageUri, type }) {
+  
   const isExchange = type === 'exchange';
-
   return (
-    <div className="group bg-white rounded-lg border border-line overflow-hidden transition hover:-translate-y-0.5 hover:shadow-lg flex flex-col">
+    
+<div className="group flex flex-col bg-white rounded-lg border border-line overflow-hidden transition hover:-translate-y-0.5 hover:shadow-lg">
       <div
-        className="h-[150px] flex items-center justify-center text-6xl"
+        className="h-[150px] flex items-center justify-center "
         style={{ background: spineGradient(id) }}
       >
-        {emoji}
+      <img
+      src={null}
+      alt="Book cover"
+      className="h-full w-full rounded-lg object-cover"
+    />
       </div>
+      
       <div className="p-3.5 flex flex-col gap-1.5 flex-1">
         <span
           className={`stamp ${isExchange ? 'stamp-exchange' : 'stamp-new'} self-start`}
