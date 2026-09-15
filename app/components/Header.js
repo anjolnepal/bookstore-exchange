@@ -18,6 +18,7 @@ export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [accountOpen, setAccountOpen] = useState(false);
   const { data: session, status } = useSession();
+  
 
   return (
     <header className="bg-spine text-white sticky top-0 z-40 border-b-[3px] border-spine-dark">
@@ -60,7 +61,7 @@ export default function Header() {
                 onClick={() => setAccountOpen((v) => !v)}
                 className="text-sm font-semibold flex items-center gap-1"
               >
-                Jordan ▾
+                {session.user.name} ▾
               </button>
               {accountOpen && (
                 <div className="absolute right-0 top-[calc(100%+8px)] bg-white text-ink border border-line rounded-lg min-w-[190px] shadow-lg p-1.5 z-50">

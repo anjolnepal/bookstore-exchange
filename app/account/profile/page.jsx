@@ -14,6 +14,7 @@ export default function ProfilePage() {
   const [imageFile, setImageFile] = useState(null);
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState(null); // { type: 'success' | 'error', text }
+  const [uploading, setUploading] = useState(false);
 
   // Redirect unauthenticated users
   useEffect(() => {
@@ -91,7 +92,7 @@ export default function ProfilePage() {
         );
 
         const cloudinaryData = await cloudinaryRes.json();
-
+        setUploading(false);
         if (!cloudinaryRes.ok) {
           throw new Error(
             cloudinaryData.error?.message || 'Cloudinary upload failed.'
@@ -144,6 +145,7 @@ export default function ProfilePage() {
         text: err.message || 'Profile update failed.',
       });
     } finally {
+      setUploading(false);
       setSaving(false);
     }
   }
@@ -214,7 +216,6 @@ export default function ProfilePage() {
 
         {/* Form */}
         <form onSubmit={handleSave}>
-         
           {message && (
             <div
               className={`mb-5 text-sm rounded-md px-3 py-2 border ${

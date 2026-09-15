@@ -27,10 +27,10 @@ export default function BookCard({ id, title, author, price, imageUri, type }) {
         className="h-[150px] flex items-center justify-center "
         style={{ background: spineGradient(id) }}
       >
-      <img
-      src={null}
+      <img 
+      src={imageUri}
       alt="Book cover"
-      className="h-full w-full rounded-lg object-cover"
+      className="h-full w-full rounded-lg object-contain"
     />
       </div>
       

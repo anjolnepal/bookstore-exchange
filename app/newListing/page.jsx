@@ -1,6 +1,7 @@
 'use client';
 
 import { useRef, useState } from 'react';
+import FormInput from '../components/books/FormInput';
 
 export default function NewListingForm() {
   const [formData, setFormData] = useState({
@@ -128,65 +129,32 @@ export default function NewListingForm() {
       <br />
       <form onSubmit={handleSubmit} className="w-full max-w-[530px] mx-auto">
         {/* TITLE */}
-        <div className="mb-5">
-          <label
-            htmlFor="title"
-            className="block text-xs font-medium text-gray-700 mb-2"
-          >
-            TITLE
-          </label>
+        <FormInput
+          id="title"
+          name="title"
+          label="TITLE"
+          value={formData.title}
+          onChange={handleChange}
+          
+        />
 
-          <input
-            id="title"
-            name="title"
-            type="text"
-            value={formData.title}
-            onChange={handleChange}
-            required
-            className="w-full h-9 border border-gray-400 px-3 text-sm outline-none focus:border-gray-700"
-          />
-        </div>
+        <FormInput
+          id="author"
+          name="author"
+          label="AUTHOR"
+          value={formData.author}
+          onChange={handleChange}
 
-        {/* AUTHOR */}
-        <div className="mb-5">
-          <label
-            htmlFor="author"
-            className="block text-xs font-medium text-gray-700 mb-2"
-          >
-            AUTHOR
-          </label>
+        />
 
-          <input
-            id="author"
-            name="author"
-            type="text"
-            value={formData.author}
-            onChange={handleChange}
-            required
-            className="w-full h-9 border border-gray-400 px-3 text-sm outline-none focus:border-gray-700"
-          />
-        </div>
-
-        {/* GENRE */}
-        <div className="mb-5">
-          <label
-            htmlFor="genre"
-            className="block text-xs font-medium text-gray-700 mb-2"
-          >
-            GENRE
-          </label>
-
-          <input
-            id="genre"
-            name="genre"
-            type="text"
-            value={formData.genre}
-            onChange={handleChange}
-            placeholder="e.g. Fiction, Romance, Mystery"
-            required
-            className="w-full h-9 border border-gray-400 px-3 text-sm outline-none focus:border-gray-700"
-          />
-        </div>
+        <FormInput
+          id="genre"
+          name="genre"
+          label="GENRE"
+          value={formData.genre}
+          onChange={handleChange}
+          placeholder="e.g. Fiction, Romance, Mystery"
+        />
 
         {/* DESCRIPTION */}
         <div className="mb-5">
@@ -208,26 +176,15 @@ export default function NewListingForm() {
           />
         </div>
 
-        {/* PRICE */}
-        <div className="mb-5">
-          <label
-            htmlFor="price"
-            className="block text-xs font-medium text-gray-700 mb-2"
-          >
-            PRICE
-          </label>
-
-          <input
-            id="price"
-            name="price"
-            type="number"
-            min="0"
-            value={formData.price}
-            onChange={handleChange}
-            required
-            className="w-full h-9 border border-gray-400 px-3 text-sm outline-none focus:border-gray-700"
-          />
-        </div>
+        <FormInput
+          id="price"
+          name="price"
+          label="PRICE"
+          type="number"
+          min="0"
+          value={formData.price}
+          onChange={handleChange}
+        />
 
         <div className="relative mb-5">
           <label
@@ -252,26 +209,15 @@ export default function NewListingForm() {
           </label>
         </div>
 
-        {/* STOCK */}
-        <div className="mb-5">
-          <label
-            htmlFor="stock"
-            className="block text-xs font-medium text-gray-700 mb-2"
-          >
-            STOCK
-          </label>
-
-          <input
-            id="stock"
-            name="stock"
-            type="number"
-            min="0"
-            value={formData.stock}
-            onChange={handleChange}
-            required
-            className="w-full h-9 border border-gray-400 px-3 text-sm outline-none focus:border-gray-700"
-          />
-        </div>
+        <FormInput
+          id="stock"
+          name="stock"
+          label="STOCK"
+          type="number"
+          min="0"
+          value={formData.stock}
+          onChange={handleChange}
+        />
 
         <label
           htmlFor="book-cover"

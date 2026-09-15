@@ -1,9 +1,11 @@
 import Link from 'next/link';
 import BookCard from './components/BookCard';
 import { getFeaturedBooks } from './lib/books';
-
+import { getServerSession } from 'next-auth';
+import { authOptions } from './api/auth/[...nextauth]/route';
 export default async function Home() {
   const books = await getFeaturedBooks();
+  const session = await getServerSession(authOptions);
 
   return (
     <>
@@ -17,7 +19,7 @@ export default async function Home() {
           A marketplace for readers — shop new titles or trade the books already
           on your shelf for something new to you.
         </p>
-
+        {session && (
         <div className="flex gap-3 justify-center">
           <a
             href="/browse"
@@ -32,6 +34,7 @@ export default async function Home() {
             List a Book
           </Link>
         </div>
+      )}
       </section>
 
       {/* ---------- Featured Books ---------- */}
