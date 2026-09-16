@@ -11,10 +11,12 @@ import { Suspense } from 'react';
 
 function LoginContent() {
   const searchParams = useSearchParams();
+  
   const callbackUrl = searchParams.get('callbackUrl') || '/';
 
   return (
     <div>
+
       <div className="flex flex-col gap-3">
         <button
           onClick={() => signIn('google', { callbackUrl })}

@@ -7,6 +7,14 @@ export default async function Home() {
   const books = await getFeaturedBooks();
   const session = await getServerSession(authOptions);
 
+  const handleProtectedClick = (href) => {
+    if (session) {
+      window.location.href = href;
+    } else {
+      alert('Please log in to continue.');
+      window.location.href = `/login?callbackUrl=${href}`;
+    }
+  };
   return (
     <>
       {/* ---------- Hero ---------- */}
@@ -19,22 +27,42 @@ export default async function Home() {
           A marketplace for readers — shop new titles or trade the books already
           on your shelf for something new to you.
         </p>
-        {session && (
+
         <div className="flex gap-3 justify-center">
-          <a
-            href="/browse"
-            className="bg-spine hover:bg-spine-dark text-white rounded-md px-5 py-3 text-sm font-semibold transition-colors"
-          >
-            Browse Books
-          </a>
-          <Link
-            href="/newListing"
-            className="border-2 border-spine text-spine hover:bg-spine hover:text-white rounded-md px-5 py-3 text-sm font-semibold transition-colors"
-          >
-            List a Book
-          </Link>
+          {session ? (
+            <>
+              <Link
+                href="/books-items"
+                className="bg-spine hover:bg-spine-dark text-white rounded-md px-5 py-3 text-sm font-semibold transition-colors"
+              >
+                Browse Books
+              </Link>
+
+              <Link
+                href="/newListing"
+                className="border-2 border-spine text-spine hover:bg-spine hover:text-white rounded-md px-5 py-3 text-sm font-semibold transition-colors"
+              >
+                List a Book
+              </Link>
+            </>
+          ) : (
+            <>
+              <Link
+                href="/login"
+                className="bg-spine hover:bg-spine-dark text-white rounded-md px-5 py-3 text-sm font-semibold transition-colors"
+              >
+                Browse Books
+              </Link>
+
+              <Link
+                href="/login"
+                className="border-2 border-spine text-spine hover:bg-spine hover:text-white rounded-md px-5 py-3 text-sm font-semibold transition-colors"
+              >
+                List a Book
+              </Link>
+            </>
+          )}
         </div>
-      )}
       </section>
 
       {/* ---------- Featured Books ---------- */}
@@ -42,13 +70,13 @@ export default async function Home() {
         <h2 className="font-display text-xl font-semibold mb-4">
           Featured Books
         </h2>
-
-        {/*
-          Same .map() pattern as before — this is the part that will
-          eventually iterate over data from fetch('/api/books') instead
-          of the hardcoded array above, with zero changes needed here.
-        */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        <div
+          className="
+          grid
+          grid-cols-[repeat(auto-fit,minmax(220px,1fr))]
+          gap-[20px]
+          "
+        >
           {books.map((book) => (
             <BookCard
               key={book.id}

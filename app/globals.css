@@ -63,9 +63,6 @@
     @apply text-spine border-spine;
   }
 }
-body {
-  @apply bg-paper text-ink font-sans antialiased;
-}
 
 h1, h2, h3, .display {
   @apply font-display tracking-tight;

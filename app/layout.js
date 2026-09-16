@@ -33,22 +33,19 @@ export default function RootLayout({ children }) {
   return (
     <html
       lang="en"
-      className={`${fraunces.variable} ${workSans.variable} ${plexMono.variable} h-full antialiased`}
+      className={`${fraunces.variable} ${workSans.variable} ${plexMono.variable}`}
     >
-      {/*
-        Header and Footer live here instead of in page.js now — every route
-        under app/ (browse, exchange, cart, account, ...) gets the same
-        nav/footer automatically without re-importing them on each page.
-        This satisfies FR-22 (consistent site-wide navigation) by
-        construction rather than by convention.
-      */}
-      <SessionWrapper>
-        <body className="min-h-full flex flex-col font-sans bg-paper text-ink">
+      <body className="min-h-screen flex flex-col font-sans bg-paper text-ink antialiased">
+        <SessionWrapper>
           <Header />
-          <main className="flex-1 flex flex-col">{children}</main>
+
+          <main className="flex-1 flex flex-col">
+            {children}
+          </main>
+
           <Footer />
-        </body>
-      </SessionWrapper>
+        </SessionWrapper>
+      </body>
     </html>
   );
 }

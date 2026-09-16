@@ -8,6 +8,8 @@ const BookSchema = new mongoose.Schema({
   coverImageUrl: String,
   stock: Number,
   genre: String,
+  ownerName:String,
+  ownerImg:String,
   type: {
     type: String,
     enum: ["new", "exchange"],

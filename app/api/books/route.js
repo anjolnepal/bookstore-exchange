@@ -28,7 +28,9 @@ export async function POST(request) {
       coverImageUrl,
       stock,
       genre,
-      type
+      type,
+      ownerName,
+      ownerImg,
     } = await request.json();
 
     if (!title || !description || !coverImageUrl || price === undefined) {
@@ -48,7 +50,9 @@ export async function POST(request) {
       coverImageUrl,
       stock,
       genre,
-      type
+      type,
+      ownerName,
+      ownerImg,
     });
 
     return Response.json(

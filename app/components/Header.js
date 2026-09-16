@@ -1,13 +1,13 @@
 'use client';
 
-import { useState } from 'react';
+import { useState ,useRef,useEffect} from 'react';
 import Link from 'next/link';
 import { useSession } from "next-auth/react";
 import { signOut } from "next-auth/react";
 
 const NAV_LINKS = [
   { href: '/', label: 'Home' },
-  { href: '/browse', label: 'Browse' },
+  { href: '/books-items', label: 'Browse' },
   { href: '/exchange', label: 'Exchange' },
 ];
 
@@ -18,10 +18,29 @@ export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [accountOpen, setAccountOpen] = useState(false);
   const { data: session, status } = useSession();
-  
+  const headerRef = useRef(null);
+
+  useEffect(() => {
+    function handleOutsideClick(event) {
+      if (
+        headerRef.current &&
+        !headerRef.current.contains(event.target)
+      ) {
+        setMobileOpen(false);
+        setAccountOpen(false);
+      }
+    }
+    document.addEventListener('mousedown', handleOutsideClick);
+
+    return () => {
+      document.removeEventListener('mousedown', handleOutsideClick);
+    };
+  }, []);
 
   return (
-    <header className="bg-spine text-white sticky top-0 z-40 border-b-[3px] border-spine-dark">
+    <header 
+    ref={headerRef}
+    className="bg-spine text-white sticky top-0 z-40 border-b-[3px] border-spine-dark">
       <div className="max-w-[1120px] mx-auto px-6 py-3.5 flex items-center justify-between gap-5">
         <Link
           href="/"
@@ -127,6 +146,7 @@ export default function Header() {
             <Link
               key={l.href}
               href={l.href}
+              onClick={() => setMobileOpen(false)}
               className="text-[#E7E1CE] py-2.5 text-sm border-b border-[#3A5545]"
             >
               {l.label}
@@ -136,11 +156,14 @@ export default function Header() {
             <>
               <Link
                 href="/login"
+                onClick={() => setMobileOpen(false)}
                 className="text-[#E7E1CE] py-2.5 text-sm border-b border-[#3A5545]"
               >
                 Log In
               </Link>
-              <Link href="/register" className="text-[#E7E1CE] py-2.5 text-sm">
+              <Link href="/register" 
+              onClick={() => setMobileOpen(false)}
+              className="text-[#E7E1CE] py-2.5 text-sm">
                 Register
               </Link>
             </>

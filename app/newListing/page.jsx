@@ -1,9 +1,12 @@
 'use client';
-
+import { useRouter } from 'next/navigation';
 import { useRef, useState } from 'react';
 import FormInput from '../components/books/FormInput';
+import { useSession } from 'next-auth/react';
+import Link from 'next/link';
 
 export default function NewListingForm() {
+
   const [formData, setFormData] = useState({
     title: '',
     author: '',
@@ -13,6 +16,8 @@ export default function NewListingForm() {
     genre: '',
     type: '',
   });
+    const router = useRouter();
+   const { data: session } = useSession();
   const [coverImage, setCoverImage] = useState(null);
   const [coverImagePreview, setCoverImagePreview] = useState('');
 
@@ -82,6 +87,8 @@ export default function NewListingForm() {
           stock: Number(formData.stock),
           genre: formData.genre,
           type: formData.type,
+          ownerIame:session.user.name,
+          ownerImg:session.user.image
         }),
       });
 
@@ -105,11 +112,13 @@ export default function NewListingForm() {
 
       setCoverImage(null);
       setCoverImagePreview('');
+       router.push('/');
     } catch (error) {
       setError(error.message);
     } finally {
       setLoading(false);
     }
+    
   };
 
   function handleBookCover(e) {
@@ -200,6 +209,7 @@ export default function NewListingForm() {
               required
               className="w-full h-9 border border-gray-400 px-3 pr-8 text-sm bg-white outline-none focus:border-gray-700 appearance-none"
             >
+              <option>Select</option>
               <option value="new">New</option>
               <option value="exchange">Exchange</option>
             </select>
@@ -258,6 +268,7 @@ export default function NewListingForm() {
         >
           {loading ? 'Publishing...' : 'Publish Listing'}
         </button>
+        
       </form>
     </>
   );

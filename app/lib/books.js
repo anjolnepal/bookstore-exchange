@@ -5,8 +5,16 @@ export async function getFeaturedBooks() {
   await connectDB();
 
   const books = await Books.find({})
-    .limit(6)
+  
     .lean();
 
-  return books;
+  return books.map((book) => ({
+    ...book,
+    id: book._id.toString(),
+  }));
+}
+export async function getBookDetails({ id }) {
+  await connectDB();
+
+  return await Books.findById(id).lean();
 }
