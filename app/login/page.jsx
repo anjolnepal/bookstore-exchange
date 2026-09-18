@@ -163,7 +163,7 @@ function LoginForm() {
   );
 }
 
-// 4. Main exported component that handles the Suspense boundary properly
+
 export default function LoginPage() {
   return (
     <Suspense

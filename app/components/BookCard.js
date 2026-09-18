@@ -1,9 +1,5 @@
-// Same props as before (title, author, price, emoji, type) plus one new
-// optional prop, `id`, used only to pick a consistent spine color per
-// book. Nothing about how this component is called needs to change
-// except adding id={book.id} in the .map() call in page.js.
 
-import Link from "next/link";
+import Link from 'next/link';
 
 const SPINE_PALETTE = [
   ['#3B5470', '#22344A'],
@@ -14,50 +10,30 @@ const SPINE_PALETTE = [
   ['#2F4A3B', '#1E3227'],
 ];
 
-// function spineGradient(id = '') {
-//   const index =
-//     String(id)
-//       .split('')
-//       .reduce((sum, char) => sum + char.charCodeAt(0), 0) %
-//     SPINE_PALETTE.length;
-
-//   const [c1, c2] = SPINE_PALETTE[index];
-//   return `linear-gradient(135deg, ${c1}, ${c2})`;
-// }
-
-export default function BookCard({
-  id,
-  title,
-  author,
-  price,
-  imageUri,
-  type,
-}) {
-  const isExchange = type === "exchange";
+export default function BookCard({ id, title, author, price, imageUri, type }) {
+  const isExchange = type === 'exchange';
 
   return (
-    <Link href={`/books-items/${id}`}>
+    <Link className='w-full sm:min-w-60 max-w-75 ' href={`/books-items/${id}`}>
       <div className="group flex flex-col bg-white rounded-lg border border-line overflow-hidden transition hover:-translate-y-0.5 hover:shadow-lg">
-
         {/* Book Cover */}
-        <div className="h-[250px] flex items-center justify-center overflow-hidden">
+        <div className="h-[280px] aspect-[2/3] overflow-hidden">
           <img
             src={imageUri}
             alt={title}
-            className="max-h-full max-w-full object-cover"
+            className="w-full h-full object-cover"
           />
         </div>
 
         {/* Book Information */}
         <div className="p-3.5 flex flex-col gap-1.5 flex-1">
-
           {/* Type */}
           <span
             className={`stamp ${
-              isExchange ? "stamp-exchange" : "stamp-new"
+              isExchange ? 'stamp-exchange' : 'stamp-new'
             } self-start`}
           >
-            {isExchange ? "For Exchange" : "New"}
+            {isExchange ? 'For Exchange' : 'New'}
           </span>
 
           {/* Title */}
@@ -66,21 +42,17 @@ export default function BookCard({
           </h3>
 
           {/* Author */}
-          <p className="text-muted text-[12.5px]">
-            {author}
-          </p>
+          <p className="text-muted text-[12.5px]">{author}</p>
 
           {/* Price + Action */}
           <div className="flex items-center justify-between pt-2 mt-auto">
-
             <span className="font-mono font-semibold text-spine text-[13.5px]">
-              {isExchange ? "Swap" : `$${price.toFixed(2)}`}
+              {isExchange ? 'Swap' : `$${price.toFixed(2)}`}
             </span>
 
             <span className="bg-spine group-hover:bg-spine-dark text-white text-sm font-semibold px-3 py-1.5 rounded-md transition-colors">
-              {isExchange ? "Request" : "Add to Cart"}
+              {isExchange ? 'Request' : 'Add to Cart'}
             </span>
-
           </div>
         </div>
       </div>

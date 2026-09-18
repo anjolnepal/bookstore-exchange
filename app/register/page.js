@@ -36,7 +36,7 @@ export default function RegisterPage() {
         throw new Error(data.error || "Something went wrong.");
       }
 
-      // Success! Send them straight to the login screen
+      
       router.push("/login");
     } catch (err) {
       setError(err.message);

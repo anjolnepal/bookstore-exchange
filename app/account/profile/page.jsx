@@ -73,8 +73,8 @@ export default function ProfilePage() {
     try {
       let imageUrl = image;
 
-      // Only upload if user selected a new image
       if (imageFile) {
+        const folderPath = `Bookswap/Profile/${session.user.name}/${session.user.id}`;
         const formData = new FormData();
 
         formData.append('file', imageFile);
@@ -82,7 +82,7 @@ export default function ProfilePage() {
           'upload_preset',
           process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET
         );
-
+        formData.append('folder',folderPath); 
         const cloudinaryRes = await fetch(
           `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload`,
           {
@@ -102,7 +102,7 @@ export default function ProfilePage() {
         imageUrl = cloudinaryData.secure_url;
       }
 
-      // Save profile to your API
+    
       const res = await fetch('/api/profile', {
         method: 'PATCH',
         headers: {
@@ -120,13 +120,12 @@ export default function ProfilePage() {
         throw new Error(data.error || 'Failed to save changes.');
       }
 
-      // Update NextAuth session
+      
       await update({
         name,
         image: imageUrl,
       });
 
-      // Remove old blob preview
       if (imageFile && image.startsWith('blob:')) {
         URL.revokeObjectURL(image);
       }
@@ -176,7 +175,7 @@ export default function ProfilePage() {
                          flex items-center justify-center text-2xl font-display text-spine"
             >
               {image ? (
-                // eslint-disable-next-line @next/next/no-img-element
+                
                 <img
                   src={image}
                   alt="Profile avatar"

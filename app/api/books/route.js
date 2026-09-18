@@ -26,11 +26,12 @@ export async function POST(request) {
       description,
       price,
       coverImageUrl,
+      coverImagePublicId,
       stock,
       genre,
       type,
-      ownerName,
-      ownerImg,
+      ownerId,
+      wantedInReturn
     } = await request.json();
 
     if (!title || !description || !coverImageUrl || price === undefined) {
@@ -39,7 +40,7 @@ export async function POST(request) {
         { status: 400 }
       );
     }
-
+console.log(wantedInReturn)
     await connectDB();
 
     const newListing = await Book.create({
@@ -48,11 +49,13 @@ export async function POST(request) {
       description,
       price,
       coverImageUrl,
+      coverImagePublicId,
       stock,
       genre,
       type,
-      ownerName,
-      ownerImg,
+      wantedInReturn,
+      ownerId,
+      
     });
 
     return Response.json(

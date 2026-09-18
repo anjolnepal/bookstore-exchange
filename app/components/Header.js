@@ -1,9 +1,10 @@
 'use client';
 
-import { useState ,useRef,useEffect} from 'react';
+import { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
-import { useSession } from "next-auth/react";
-import { signOut } from "next-auth/react";
+import { useSession } from 'next-auth/react';
+import { signOut } from 'next-auth/react';
+import { usePathname } from 'next/navigation';
 
 const NAV_LINKS = [
   { href: '/', label: 'Home' },
@@ -11,21 +12,18 @@ const NAV_LINKS = [
   { href: '/exchange', label: 'Exchange' },
 ];
 
-
 const cartCount = 0;
 
 export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [accountOpen, setAccountOpen] = useState(false);
   const { data: session, status } = useSession();
+  const pathname = usePathname();
   const headerRef = useRef(null);
 
   useEffect(() => {
     function handleOutsideClick(event) {
-      if (
-        headerRef.current &&
-        !headerRef.current.contains(event.target)
-      ) {
+      if (headerRef.current && !headerRef.current.contains(event.target)) {
         setMobileOpen(false);
         setAccountOpen(false);
       }
@@ -38,9 +36,10 @@ export default function Header() {
   }, []);
 
   return (
-    <header 
-    ref={headerRef}
-    className="bg-spine text-white sticky top-0 z-40 border-b-[3px] border-spine-dark">
+    <header
+      ref={headerRef}
+      className="bg-spine text-white sticky top-0 z-40 border-b-[3px] border-spine-dark"
+    >
       <div className="max-w-[1120px] mx-auto px-6 py-3.5 flex items-center justify-between gap-5">
         <Link
           href="/"
@@ -54,7 +53,11 @@ export default function Header() {
             <Link
               key={l.href}
               href={l.href}
-              className="text-[#E7E1CE] hover:text-white pb-1 border-b-2 border-transparent transition-colors"
+              className={`pb-1  transition-colors ${
+                pathname === l.href
+                  ? 'text-mustard border-mustard'
+                  : 'text-[#E7E1CE] border-transparent hover:text-white'
+              }`}
             >
               {l.label}
             </Link>
@@ -62,19 +65,22 @@ export default function Header() {
         </nav>
 
         <div className="flex items-center gap-3.5">
-          {status === "unauthenticated" ? <div></div>:<Link
-            href="/cart"
-            className="relative text-base p-1"
-            aria-label="Cart"
-          >
-            🛒
-            <span className="absolute -top-1.5 -right-2 bg-mustard text-spine-dark text-[10px] font-bold font-mono rounded-full w-4 h-4 flex items-center justify-center">
-              {cartCount}
-            </span>
-          </Link>}
-          
+          {status === 'unauthenticated' ? (
+            <div></div>
+          ) : (
+            <Link
+              href="/cart"
+              className="relative text-base p-1"
+              aria-label="Cart"
+            >
+              🛒
+              <span className="absolute -top-1.5 -right-2 bg-mustard text-spine-dark text-[10px] font-bold font-mono rounded-full w-4 h-4 flex items-center justify-center">
+                {cartCount}
+              </span>
+            </Link>
+          )}
 
-          {status === "authenticated" ? (
+          {status === 'authenticated' ? (
             <div className="relative">
               <button
                 onClick={() => setAccountOpen((v) => !v)}
@@ -97,13 +103,13 @@ export default function Header() {
                     My Orders
                   </Link>
                   <Link
-                    href="/account/listings"
+                    href="/account/profile/myListings"
                     className="block px-3 py-2 text-sm rounded hover:bg-paper-2"
                   >
                     My Listings
                   </Link>
                   <Link
-                    href="/account/requests"
+                    href="/account/profile"
                     className="block px-3 py-2 text-sm rounded hover:bg-paper-2"
                   >
                     My Requests
@@ -115,7 +121,10 @@ export default function Header() {
                     Profile
                   </Link>
                   <hr className="my-1 border-line" />
-                  <button onClick={() => signOut({ callbackUrl: "/login" })} className="block w-full text-left px-3 py-2 text-sm rounded hover:bg-paper-2">
+                  <button
+                    onClick={() => signOut({ callbackUrl: '/login' })}
+                    className="block w-full text-left px-3 py-2 text-sm rounded hover:bg-paper-2"
+                  >
                     Log Out
                   </button>
                 </div>
@@ -152,7 +161,7 @@ export default function Header() {
               {l.label}
             </Link>
           ))}
-          {status === "unauthenticated" && (
+          {status === 'unauthenticated' && (
             <>
               <Link
                 href="/login"
@@ -161,9 +170,11 @@ export default function Header() {
               >
                 Log In
               </Link>
-              <Link href="/register" 
-              onClick={() => setMobileOpen(false)}
-              className="text-[#E7E1CE] py-2.5 text-sm">
+              <Link
+                href="/register"
+                onClick={() => setMobileOpen(false)}
+                className="text-[#E7E1CE] py-2.5 text-sm"
+              >
                 Register
               </Link>
             </>

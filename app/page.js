@@ -7,14 +7,6 @@ export default async function Home() {
   const books = await getFeaturedBooks();
   const session = await getServerSession(authOptions);
 
-  const handleProtectedClick = (href) => {
-    if (session) {
-      window.location.href = href;
-    } else {
-      alert('Please log in to continue.');
-      window.location.href = `/login?callbackUrl=${href}`;
-    }
-  };
   return (
     <>
       {/* ---------- Hero ---------- */}
@@ -28,41 +20,43 @@ export default async function Home() {
           on your shelf for something new to you.
         </p>
 
-        <div className="flex gap-3 justify-center">
-          {session ? (
-            <>
-              <Link
-                href="/books-items"
-                className="bg-spine hover:bg-spine-dark text-white rounded-md px-5 py-3 text-sm font-semibold transition-colors"
-              >
-                Browse Books
-              </Link>
+        {books.length > 0 && (
+          <div className="flex gap-3 justify-center">
+            {session ? (
+              <>
+                <Link
+                  href="/books-items"
+                  className="bg-spine hover:bg-spine-dark text-white rounded-md px-5 py-3 text-sm font-semibold transition-colors"
+                >
+                  Browse Books
+                </Link>
 
-              <Link
-                href="/newListing"
-                className="border-2 border-spine text-spine hover:bg-spine hover:text-white rounded-md px-5 py-3 text-sm font-semibold transition-colors"
-              >
-                List a Book
-              </Link>
-            </>
-          ) : (
-            <>
-              <Link
-                href="/login"
-                className="bg-spine hover:bg-spine-dark text-white rounded-md px-5 py-3 text-sm font-semibold transition-colors"
-              >
-                Browse Books
-              </Link>
+                <Link
+                  href="/newListing"
+                  className="border-2 border-spine text-spine hover:bg-spine hover:text-white rounded-md px-5 py-3 text-sm font-semibold transition-colors"
+                >
+                  List a Book
+                </Link>
+              </>
+            ) : (
+              <>
+                <Link
+                  href="/login"
+                  className="bg-spine hover:bg-spine-dark text-white rounded-md px-5 py-3 text-sm font-semibold transition-colors"
+                >
+                  Browse Books
+                </Link>
 
-              <Link
-                href="/login"
-                className="border-2 border-spine text-spine hover:bg-spine hover:text-white rounded-md px-5 py-3 text-sm font-semibold transition-colors"
-              >
-                List a Book
-              </Link>
-            </>
-          )}
-        </div>
+                <Link
+                  href="/login"
+                  className="border-2 border-spine text-spine hover:bg-spine hover:text-white rounded-md px-5 py-3 text-sm font-semibold transition-colors"
+                >
+                  List a Book
+                </Link>
+              </>
+            )}
+          </div>
+        )}
       </section>
 
       {/* ---------- Featured Books ---------- */}
@@ -70,25 +64,39 @@ export default async function Home() {
         <h2 className="font-display text-xl font-semibold mb-4">
           Featured Books
         </h2>
-        <div
-          className="
-          grid
-          grid-cols-[repeat(auto-fit,minmax(220px,1fr))]
-          gap-[20px]
-          "
-        >
-          {books.map((book) => (
-            <BookCard
-              key={book.id}
-              id={book.id}
-              title={book.title}
-              author={book.author}
-              price={book.price}
-              imageUri={book.coverImageUrl}
-              type={book.type}
-            />
-          ))}
-        </div>
+
+        {books.length === 0 ? (
+          <div className="text-center py-12 border border-line rounded-lg bg-white">
+            <h3 className="font-display text-lg font-semibold mb-2">
+              No books available yet
+            </h3>
+
+            <p className="text-muted text-sm mb-5">
+              Be the first to list a book and help grow our community.
+            </p>
+
+            <Link
+              href={session ? '/newListing' : '/login'}
+              className="inline-block bg-spine hover:bg-spine-dark text-white rounded-md px-5 py-3 text-sm font-semibold transition-colors"
+            >
+              List a Book
+            </Link>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-15 gap-y-8 justify-items-center">
+            {books.map((book) => (
+              <BookCard
+                key={book.id}
+                id={book.id}
+                title={book.title}
+                author={book.author}
+                price={book.price}
+                imageUri={book.coverImageUrl}
+                type={book.type}
+              />
+            ))}
+          </div>
+        )}
       </section>
     </>
   );

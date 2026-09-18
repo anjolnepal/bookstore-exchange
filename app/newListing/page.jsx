@@ -6,7 +6,6 @@ import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 
 export default function NewListingForm() {
-
   const [formData, setFormData] = useState({
     title: '',
     author: '',
@@ -15,9 +14,10 @@ export default function NewListingForm() {
     stock: '',
     genre: '',
     type: '',
+    wantedInReturn: '',
   });
-    const router = useRouter();
-   const { data: session } = useSession();
+  const router = useRouter();
+  const { data: session, status } = useSession();
   const [coverImage, setCoverImage] = useState(null);
   const [coverImagePreview, setCoverImagePreview] = useState('');
 
@@ -43,8 +43,9 @@ export default function NewListingForm() {
 
     try {
       let coverImageUrl = '';
-
+      let coverImagePublicId='';
       if (coverImage) {
+        const folderPath = `Bookswap/Book/${session.user.name}/${session.user.id}`;
         const imageFormData = new FormData();
 
         imageFormData.append('file', coverImage);
@@ -53,7 +54,7 @@ export default function NewListingForm() {
           'upload_preset',
           process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET
         );
-
+        imageFormData.append('folder', folderPath);
         const cloudinaryResponse = await fetch(
           `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload`,
           {
@@ -71,6 +72,7 @@ export default function NewListingForm() {
         }
 
         coverImageUrl = cloudinaryData.secure_url;
+        coverImagePublicId=cloudinaryData.public_id;
       }
 
       const response = await fetch('/api/books', {
@@ -84,11 +86,12 @@ export default function NewListingForm() {
           description: formData.description,
           price: Number(formData.price),
           coverImageUrl: coverImageUrl,
+          coverImagePublicId:coverImagePublicId,
           stock: Number(formData.stock),
           genre: formData.genre,
           type: formData.type,
-          ownerIame:session.user.name,
-          ownerImg:session.user.image
+          wantedInReturn: formData.wantedInReturn,
+          ownerId: session.user.id,
         }),
       });
 
@@ -108,17 +111,17 @@ export default function NewListingForm() {
         stock: '',
         genre: '',
         type: '',
+        wantedInReturn: '',
       });
 
       setCoverImage(null);
       setCoverImagePreview('');
-       router.push('/');
+      router.push('/');
     } catch (error) {
       setError(error.message);
     } finally {
       setLoading(false);
     }
-    
   };
 
   function handleBookCover(e) {
@@ -144,7 +147,6 @@ export default function NewListingForm() {
           label="TITLE"
           value={formData.title}
           onChange={handleChange}
-          
         />
 
         <FormInput
@@ -153,7 +155,6 @@ export default function NewListingForm() {
           label="AUTHOR"
           value={formData.author}
           onChange={handleChange}
-
         />
 
         <FormInput
@@ -185,16 +186,6 @@ export default function NewListingForm() {
           />
         </div>
 
-        <FormInput
-          id="price"
-          name="price"
-          label="PRICE"
-          type="number"
-          min="0"
-          value={formData.price}
-          onChange={handleChange}
-        />
-
         <div className="relative mb-5">
           <label
             htmlFor="type"
@@ -209,7 +200,7 @@ export default function NewListingForm() {
               required
               className="w-full h-9 border border-gray-400 px-3 pr-8 text-sm bg-white outline-none focus:border-gray-700 appearance-none"
             >
-              <option>Select</option>
+              <option value="">Select</option>
               <option value="new">New</option>
               <option value="exchange">Exchange</option>
             </select>
@@ -218,17 +209,37 @@ export default function NewListingForm() {
             </span>
           </label>
         </div>
-
-        <FormInput
-          id="stock"
-          name="stock"
-          label="STOCK"
-          type="number"
-          min="0"
-          value={formData.stock}
-          onChange={handleChange}
-        />
-
+        {formData.type === 'new' && (
+          <FormInput
+            id="price"
+            name="price"
+            label="PRICE"
+            type="number"
+            min="0"
+            value={formData.price}
+            onChange={handleChange}
+          />
+        )}
+        {formData.type === 'exchange' && (
+          <FormInput
+            id="wantedInReturn"
+            name="wantedInReturn"
+            label="WANTED IN RETURN (OPTIONAL)"
+            value={formData.wantedInReturn}
+            onChange={handleChange}
+          />
+        )}
+        {formData.type === 'new' && (
+          <FormInput
+            id="stock"
+            name="stock"
+            label="STOCK"
+            type="number"
+            min="0"
+            value={formData.stock}
+            onChange={handleChange}
+          />
+        )}
         <label
           htmlFor="book-cover"
           className="flex h-48 w-full cursor-pointer items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 hover:bg-gray-100"
@@ -268,7 +279,6 @@ export default function NewListingForm() {
         >
           {loading ? 'Publishing...' : 'Publish Listing'}
         </button>
-        
       </form>
     </>
   );
