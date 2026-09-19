@@ -34,6 +34,10 @@ export default function Header() {
       document.removeEventListener('mousedown', handleOutsideClick);
     };
   }, []);
+  const closeMenus = () => {
+  setMobileOpen(false);
+  setAccountOpen(false);
+};
 
   return (
     <header
@@ -53,6 +57,7 @@ export default function Header() {
             <Link
               key={l.href}
               href={l.href}
+              onClick={closeMenus}
               className={`pb-1  transition-colors ${
                 pathname === l.href
                   ? 'text-mustard border-mustard'
@@ -70,6 +75,7 @@ export default function Header() {
           ) : (
             <Link
               href="/cart"
+              onClick={closeMenus}
               className="relative text-base p-1"
               aria-label="Cart"
             >
@@ -92,30 +98,35 @@ export default function Header() {
                 <div className="absolute right-0 top-[calc(100%+8px)] bg-white text-ink border border-line rounded-lg min-w-[190px] shadow-lg p-1.5 z-50">
                   <Link
                     href="/account"
+                    onClick={closeMenus}
                     className="block px-3 py-2 text-sm rounded hover:bg-paper-2"
                   >
                     Dashboard
                   </Link>
                   <Link
                     href="/account/orders"
+                    onClick={closeMenus}
                     className="block px-3 py-2 text-sm rounded hover:bg-paper-2"
                   >
                     My Orders
                   </Link>
                   <Link
                     href="/account/profile/myListings"
+                    onClick={closeMenus}
                     className="block px-3 py-2 text-sm rounded hover:bg-paper-2"
                   >
                     My Listings
                   </Link>
                   <Link
                     href="/account/profile"
+                    onClick={closeMenus}
                     className="block px-3 py-2 text-sm rounded hover:bg-paper-2"
                   >
                     My Requests
                   </Link>
                   <Link
                     href="/account/profile"
+                    onClick={closeMenus}
                     className="block px-3 py-2 text-sm rounded hover:bg-paper-2"
                   >
                     Profile
@@ -133,6 +144,7 @@ export default function Header() {
           ) : (
             <Link
               href="/login"
+              onClick={closeMenus}
               className="bg-mustard text-spine-dark rounded-md px-3.5 py-2 text-sm font-semibold hover:bg-mustard-dark transition-colors"
             >
               Log In
@@ -164,7 +176,7 @@ export default function Header() {
           {status === 'unauthenticated' && (
             <>
               <Link
-                href="/login"
+                href="/login"               
                 onClick={() => setMobileOpen(false)}
                 className="text-[#E7E1CE] py-2.5 text-sm border-b border-[#3A5545]"
               >
