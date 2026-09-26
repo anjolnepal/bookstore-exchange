@@ -44,7 +44,7 @@ export default function Header() {
       ref={headerRef}
       className="bg-spine text-white sticky top-0 z-40 border-b-[3px] border-spine-dark"
     >
-      <div className="max-w-[1120px] mx-auto px-6 py-3.5 flex items-center justify-between gap-5">
+      <div className="max-w-280 mx-auto px-6 py-3.5 flex items-center justify-between gap-5">
         <Link
           href="/"
           className="font-display font-bold text-xl flex items-center gap-2"
