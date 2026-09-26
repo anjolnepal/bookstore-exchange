@@ -2,10 +2,10 @@ import './globals.css';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import SessionWrapper from './components/SessionWrapper';
-// Same three fonts the prototype loaded from Google Fonts, now self-hosted
-// via next/font (faster, no external request, no layout shift).
-const workSans = Work_Sans({ subsets: ['latin'] });
-const fraunces = Fraunces({ subsets: ['latin'] });
+import { Work_Sans, Fraunces } from 'next/font/google';
+import { IBM_Plex_Mono } from 'next/font/google';
+
+// Font declarations with proper configuration
 const fraunces = Fraunces({
   variable: '--font-fraunces',
   subsets: ['latin'],
