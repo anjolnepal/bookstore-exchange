@@ -4,3 +4,4 @@ const nextConfig = {
     turbopack: false,
   },
 };
+module.exports = nextConfig;
