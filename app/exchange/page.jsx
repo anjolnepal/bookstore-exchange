@@ -174,25 +174,20 @@ export default function ExchangePage() {
                 
                 <div className="mb-3 text-xs space-y-1">
                   <p className="text-muted">
-                    Genre: <span className="font-semibold text-ink">{book.genre}</span>
+                    Genre: <span className="font-semibold text-ink">{book.genre || 'N/A'}</span>
                   </p>
                   <p className="text-muted">
-                    Condition: <span className="font-semibold text-ink">{book.condition}</span>
+                    Condition: <span className="font-semibold text-ink">{book.condition || 'N/A'}</span>
                   </p>
-                  {book.publishedYear && (
-                    <p className="text-muted">
-                      Published: <span className="font-semibold text-ink">{book.publishedYear}</span>
-                    </p>
-                  )}
                 </div>
 
                 <div className="mb-4 pb-4 border-t border-line">
                   <p className="text-xs text-muted mt-3">
-                    By: <span className="font-semibold text-ink">{book.postedBy?.username || 'Anonymous'}</span>
+                    By: <span className="font-semibold text-ink">{book.ownerId?.username || 'Anonymous'}</span>
                   </p>
                 </div>
 
-                <Link href={`/exchange/${book._id}`}>
+                <Link href={`/books-items/${book._id}`}>
                   <button className="w-full bg-spine hover:bg-spine-dark text-white px-3 py-2 rounded-card text-sm font-semibold transition-colors">
                     View Details
                   </button>
